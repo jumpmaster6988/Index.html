@@ -1,356 +1,1277 @@
-<!DOCTYPE html>  
-<html lang="en">  
-<head>  
- <meta charset="UTF-8" />  
- <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
- <title>Blitz Yard Sale | Live Online Flash Yard Sales — Sellers Keep 95%</title>  
- <style>  
- :root {  
- --bg: #0f172a;  
- --surface: #1e293b;  
- --surface-light: #334155;  
- --text: #f8fafc;  
- --muted: #94a3b8;  
- --accent: #22c55e;  
- --accent-dark: #16a34a;  
- --warn: #f59e0b;  
- --warn-bg: rgba(245, 158, 11, 0.14);  
- --danger: #ef4444;  
- --border: #334155;  
- }  
-  
- * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }  
- body { background: var(--bg); color: var(--text); line-height: 1.5; padding-bottom: 60px; }  
-  
- /* Top Banner */  
- .top-bar {  
- background: linear-gradient(90deg, #14532d, #166534);  
- color: #dcfce7;  
- text-align: center;  
- padding: 10px 16px;  
- font-size: 0.9rem;  
- font-weight: 600;  
- }  
-  
- /* Header */  
- header {  
- max-width: 1120px;  
- margin: 0 auto;  
- padding: 20px 16px;  
- display: flex;  
- flex-wrap: wrap;  
- justify-content: space-between;  
- align-items: center;  
- gap: 12px;  
- border-bottom: 1px solid var(--border);  
- }  
- .brand h1 { font-size: 1.55rem; letter-spacing: -0.5px; }  
- .brand span { color: var(--accent); }  
- .brand p { color: var(--muted); font-size: 0.85rem; }  
-  
- .header-actions { display: flex; gap: 10px; flex-wrap: wrap; }  
- button {  
- cursor: pointer;  
- border: none;  
- border-radius: 8px;  
- padding: 10px 16px;  
- font-weight: 600;  
- font-size: 0.9rem;  
- transition: 0.15s ease;  
- }  
- .btn-primary { background: var(--accent); color: #052e16; }  
- .btn-primary:hover { background: var(--accent-dark); color: #fff; }  
- .btn-secondary { background: var(--surface-light); color: var(--text); }  
- .btn-secondary:hover { background: #475569; }  
- .btn-warn { background: var(--warn); color: #1c1917; }  
-  
- /* Live Drop Hero */  
- .hero {  
- max-width: 1120px;  
- margin: 20px auto;  
- padding: 0 16px;  
- }  
- .hero-card {  
- background: var(--surface);  
- border: 1px solid var(--border);  
- border-radius: 14px;  
- padding: 22px;  
- display: grid;  
- grid-template-columns: 1fr auto;  
- gap: 20px;  
- align-items: center;  
- }  
- @media (max-width: 720px) {  
- .hero-card { grid-template-columns: 1fr; }  
- }  
- .live-pill {  
- display: inline-flex;  
- align-items: center;  
- gap: 8px;  
- background: rgba(34, 197, 94, 0.15);  
- color: var(--accent);  
- padding: 4px 12px;  
- border-radius: 999px;  
- font-size: 0.8rem;  
- font-weight: 700;  
- margin-bottom: 8px;  
- }  
- .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; }  
- .timer-box {  
- background: var(--bg);  
- border: 1px solid var(--border);  
- padding: 14px 20px;  
- border-radius: 12px;  
- text-align: center;  
- }  
- .timer-box small { color: var(--muted); display: block; font-size: 0.75rem; text-transform: uppercase; }  
- .timer-box strong { font-size: 1.5rem; color: var(--warn); font-variant-numeric: tabular-nums; }  
-  
- /* Filter Bar */  
- .controls {  
- max-width: 1120px;  
- margin: 20px auto 12px;  
- padding: 0 16px;  
- display: flex;  
- justify-content: space-between;  
- align-items: center;  
- flex-wrap: wrap;  
- gap: 10px;  
- }  
- .filter-group { display: flex; gap: 8px; flex-wrap: wrap; }  
- .filter-btn { background: var(--surface); color: var(--muted); border: 1px solid var(--border); }  
- .filter-btn.active { background: var(--accent); color: #052e16; border-color: var(--accent); }  
-  
- /* Grid */  
- .grid {  
- max-width: 1120px;  
- margin: 0 auto;  
- padding: 0 16px;  
- display: grid;  
- grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));  
- gap: 18px;  
- }  
- .card {  
- background: var(--surface);  
- border: 1px solid var(--border);  
- border-radius: 14px;  
- overflow: hidden;  
- display: flex;  
- flex-direction: column;  
- justify-content: space-between;  
- }  
- .card.bulky { border-color: var(--warn); }  
- .card-top { padding: 18px; }  
- .badge-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 10px; }  
- .badge-ship {  
- background: rgba(56, 189, 248, 0.15);  
- color: #38bdf8;  
- font-size: 0.75rem;  
- font-weight: 700;  
- padding: 4px 10px;  
- border-radius: 6px;  
- }  
- .badge-pickup {  
- background: var(--warn-bg);  
- color: var(--warn);  
- border: 1px solid rgba(245, 158, 11, 0.4);  
- font-size: 0.75rem;  
- font-weight: 700;  
- padding: 4px 10px;  
- border-radius: 6px;  
- }  
- .card h3 { font-size: 1.15rem; margin-bottom: 6px; }  
- .card p { color: var(--muted); font-size: 0.9rem; margin-bottom: 12px; }  
-  
- .pickup-callout {  
- background: var(--warn-bg);  
- border-left: 3px solid var(--warn);  
- padding: 10px 12px;  
- border-radius: 6px;  
- font-size: 0.82rem;  
- color: #fde68a;  
- margin-bottom: 12px;  
- }  
-  
- .price-strip {  
- background: var(--bg);  
- padding: 14px 18px;  
- border-top: 1px solid var(--border);  
- display: flex;  
- justify-content: space-between;  
- align-items: center;  
- }  
- .price-tag { font-size: 1.35rem; font-weight: 800; color: var(--text); }  
- .price-sub { display: block; font-size: 0.75rem; color: var(--muted); font-weight: 400; }  
-  
- /* Modals */  
- .modal-backdrop {  
- position: fixed;  
- inset: 0;  
- background: rgba(2, 6, 23, 0.82);  
- display: none;  
- align-items: center;  
- justify-content: center;  
- padding: 16px;  
- z-index: 50;  
- }  
- .modal-backdrop.open { display: flex; }  
- .modal {  
- background: var(--surface);  
- border: 1px solid var(--border);  
- border-radius: 16px;  
- max-width: 520px;  
- width: 100%;  
- max-height: 90vh;  
- overflow-y: auto;  
- padding: 22px;  
- }  
- .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }  
- .close-btn { background: transparent; color: var(--muted); font-size: 1.3rem; padding: 4px 8px; }  
-  
- .summary-box {  
- background: var(--bg);  
- border: 1px solid var(--border);  
- border-radius: 10px;  
- padding: 14px;  
- margin: 12px 0;  
- font-size: 0.9rem;  
- }  
- .summary-row { display: flex; justify-content: space-between; padding: 5px 0; }  
- .summary-row.total { border-top: 1px solid var(--border); margin-top: 6px; padding-top: 10px; font-weight: 800; font-size: 1.05rem; color: var(--accent); }  
- .seller-split-note {  
- background: rgba(34, 197, 94, 0.1);  
- border: 1px solid rgba(34, 197, 94, 0.3);  
- color: #bbf7d0;  
- padding: 10px 12px;  
- border-radius: 8px;  
- font-size: 0.82rem;  
- margin-top: 10px;  
- }  
-  
- .receipt-box {  
- background: #052e16;  
- border: 1px solid var(--accent);  
- border-radius: 12px;  
- padding: 16px;  
- margin-top: 14px;  
- }  
- .receipt-box h4 { color: var(--accent); margin-bottom: 8px; }  
-  
- /* Form Fields */  
- .form-group { margin-bottom: 12px; }  
- label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; color: #e2e8f0; }  
- input, textarea, select {  
- width: 100%;  
- background: var(--bg);  
- border: 1px solid var(--border);  
- color: var(--text);  
- padding: 10px 12px;  
- border-radius: 8px;  
- font-size: 0.92rem;  
- }  
- .checkbox-row {  
- display: flex;  
- align-items: flex-start;  
- gap: 10px;  
- background: var(--warn-bg);  
- border: 1px solid rgba(245, 158, 11, 0.4);  
- padding: 12px;  
- border-radius: 8px;  
- margin: 12px 0;  
- font-size: 0.85rem;  
- color: #fef3c7;  
- }  
- .checkbox-row input { width: auto; margin-top: 3px; }  
- </style>  
-</head>  
-<body>  
-  
- <div class="top-bar">  
- $0 Upfront to List • Sellers Keep 95% • Commercial USPS/UPS Shipping • Private Bulky-Item Pickup Only After Paid Checkout  
- </div>  
-  
- <header>  
- <div class="brand">  
- <h1>Blitz<span>YardSale</span>.com</h1>  
- <p>Live Online Flash Yard Sales — Nationwide Shipping &amp; Gated Local Pickup</p>  
- </div>  
- <div class="header-actions">  
- <button class="btn-secondary" onclick="openSellerModal()">+ List Item ($0 Upfront)</button>  
- <button class="btn-primary" onclick="filterItems('all')">Live Drop Catalog</button>  
- </div>  
- </header>  
-  
- <section class="hero">  
- <div class="hero-card">  
- <div>  
- <div class="live-pill"><span class="dot"></span> LIVE BLITZ DROP #104 — EAST TN / WESTERN NC</div>  
- <h2>Weekend Garage &amp; Estate Cleanout — Newport, TN</h2>  
- <p style="color: var(--muted); margin-top: 6px; font-size: 0.92rem;">  
- No crowds at your house. Standard items ship via discounted commercial USPS Ground Advantage. Oversized items (furniture, swing sets, mowers) are paid online while live—exact pickup address unlocks <strong>only</strong> for the winning paid buyer.  
- </p>  
- </div>  
- <div class="timer-box">  
- <small>Drop Ends In</small>  
- <strong id="countdown">01:58:42</strong>  
- </div>  
- </div>  
- </section>  
-  
- <div class="controls">  
- <div class="filter-group">  
- <button class="filter-btn active" id="btn-all" onclick="filterItems('all')">All Items</button>  
- <button class="filter-btn" id="btn-ship" onclick="filterItems('ship')">Shippable Nationwide</button>  
- <button class="filter-btn" id="btn-pickup" onclick="filterItems('pickup')">Bulky / Local Pickup Only</button>  
- </div>  
- <div style="color: var(--muted); font-size: 0.85rem;" id="item-count">Showing 4 live items</div>  
- </div>  
-  
- <main class="grid" id="catalog-grid"></main>  
-  
- <!-- CHECKOUT & POST-PAYMENT RECEIPT MODAL -->  
- <div class="modal-backdrop" id="checkout-modal">  
- <div class="modal">  
- <div class="modal-header">  
- <h3 id="modal-title">Instant Live Checkout</h3>  
- <button class="close-btn" onclick="closeCheckout()">&times;</button>  
- </div>  
- <div id="checkout-body"></div>  
- </div>  
- </div>  
-  
- <!-- SELLER ADD-ITEM MODAL -->  
- <div class="modal-backdrop" id="seller-modal">  
- <div class="modal">  
- <div class="modal-header">  
- <h3>Add Item to Live Blitz Drop ($0 Fee)</h3>  
- <button class="close-btn" onclick="closeSellerModal()">&times;</button>  
- </div>  
- <form onsubmit="addNewItem(event)">  
- <div class="form-group">  
- <label>Item Title</label>  
- <input type="text" id="new-title" placeholder="e.g., Heavy-Duty Cedar Swing Set or DeWalt Miter Saw" required />  
- </div>  
- <div class="form-group">  
- <label>Description &amp; Condition</label>  
- <textarea id="new-desc" rows="2" placeholder="Describe condition, dimensions, or what's included..." required></textarea>  
- </div>  
- <div class="form-group">  
- <label>Item Price ($ USD) — You Keep 95%</label>  
- <input type="number" id="new-price" min="1" step="1" placeholder="75" required oninput="updateSellerPreview()" />  
- <small id="seller-payout-preview" style="color: var(--accent); display: block; margin-top: 4px;">  
- Your guaranteed 95% payout: $0.00 ($0 upfront listing fee)  
- </small>  
- </div>  
- <div class="form-group">  
- <label>Delivery / Handoff Method</label>  
- <select id="new-type" onchange="toggleSellerFields()">  
- <option value="ship">Standard Shippable Item (USPS / UPS Commercial Label)</option>  
- <option value="pickup">Too Large to Ship — Private Local Pickup Only (Furniture, Swing Sets, etc.)</option>  
- </select>  
- </div>  
-  
- <div id="ship-fields">  
- </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="theme-color" content="#0b132b" />
+<title>BlitzYardSale.com — High-Speed Private Online Yard Sales (Closed Beta)</title>
+<style>
+  :root {
+    --navy: #0b132b;
+    --navy-mid: #1c2541;
+    --slate: #2b3856;
+    --gold: #f5b700;
+    --gold-bright: #ffd60a;
+    --green: #16a34a;
+    --green-soft: #dcfce7;
+    --red: #dc2626;
+    --bg: #f4f6fa;
+    --card: #ffffff;
+    --text: #0f172a;
+    --muted: #475569;
+    --border: #e2e8f0;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding-bottom: 84px;
+  }
+
+  /* VIP CLOSED BETA PASSCODE GATE */
+  #beta-gate-screen {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at top, #1c2541 0%, #0b132b 85%);
+    color: #fff;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    text-align: center;
+  }
+  #beta-gate-screen.unlocked { display: none; }
+  .gate-box {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1.5px solid rgba(245, 183, 0, 0.55);
+    border-radius: 20px;
+    padding: 26px 22px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  }
+  .shield-badge {
+    width: 120px;
+    height: 136px;
+    background: linear-gradient(145deg, #1c2541, #0b132b);
+    border: 4px solid var(--gold);
+    border-radius: 20px 20px 60px 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 28px rgba(245, 183, 0, 0.35);
+    margin: 0 auto 14px;
+  }
+  .shield-dog { font-size: 46px; line-height: 1; }
+  .shield-tag {
+    background: var(--green);
+    color: #fff;
+    font-weight: 900;
+    font-size: 13px;
+    padding: 2px 9px;
+    border-radius: 999px;
+    border: 2px solid var(--gold);
+    margin-top: 5px;
+  }
+  .gate-input {
+    width: 100%;
+    padding: 13px;
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-align: center;
+    text-transform: uppercase;
+    border-radius: 12px;
+    border: 2px solid var(--gold);
+    background: #0b132b;
+    color: var(--gold-bright);
+    margin: 12px 0;
+  }
+  .gate-error {
+    color: #fca5a5;
+    font-size: 12px;
+    font-weight: 700;
+    min-height: 18px;
+    margin-bottom: 8px;
+  }
+
+  /* 7-SECOND SARGE SPLASH OVERLAY */
+  #splash-screen {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at top, #1c2541 0%, #0b132b 80%);
+    color: #fff;
+    z-index: 9999;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    text-align: center;
+  }
+  #splash-screen.active { display: flex; }
+  .splash-title {
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: 0.8px;
+    color: var(--gold-bright);
+    margin: 4px 0;
+  }
+  .splash-sub { color: #cbd5e1; font-size: 14px; max-width: 340px; margin-bottom: 20px; }
+  .splash-timer-pill {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(245,183,0,0.5);
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gold-bright);
+    margin-bottom: 14px;
+  }
+  .btn-gold {
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+    color: #0b132b;
+    border: none;
+    font-weight: 800;
+    font-size: 15px;
+    padding: 13px 22px;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(245, 183, 0, 0.35);
+  }
+  .btn-gold:active { transform: scale(0.98); }
+
+  /* TOP WEBSITE HEADER & DESKTOP NAV */
+  header {
+    background: var(--navy);
+    color: #fff;
+    padding: 12px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  }
+  .header-inner {
+    max-width: 1140px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .brand-row { display: flex; align-items: center; gap: 10px; }
+  .brand-icon {
+    width: 38px; height: 38px;
+    background: var(--navy-mid);
+    border: 2px solid var(--gold);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+  }
+  .brand-name { font-weight: 900; font-size: 17px; color: var(--gold-bright); letter-spacing: 0.3px; }
+  .brand-tag { font-size: 11px; color: #94a3b8; }
+  .desktop-nav { display: none; gap: 6px; }
+  @media (min-width: 768px) {
+    .desktop-nav { display: flex; }
+    .bottom-nav { display: none !important; }
+    body { padding-bottom: 24px; }
+  }
+  .nav-pill {
+    background: transparent;
+    color: #cbd5e1;
+    border: 1px solid transparent;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .nav-pill.active {
+    background: var(--gold);
+    color: var(--navy);
+  }
+
+  /* MAIN CONTAINER */
+  main { max-width: 980px; margin: 0 auto; padding: 16px; }
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(15,23,42,0.04);
+  }
+  .card-dark {
+    background: linear-gradient(145deg, var(--navy), var(--navy-mid));
+    color: #fff;
+    border: 1px solid rgba(245,183,0,0.4);
+  }
+  h2 { margin: 0 0 8px; font-size: 21px; }
+  h3 { margin: 0 0 8px; font-size: 16px; }
+  p { margin: 0 0 12px; line-height: 1.45; color: var(--muted); font-size: 14px; }
+  .card-dark p { color: #cbd5e1; }
+
+  .badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .badge-gold { background: rgba(245,183,0,0.2); color: #b45309; }
+  .card-dark .badge-gold { background: rgba(245,183,0,0.2); color: var(--gold-bright); }
+  .badge-green { background: var(--green-soft); color: #15803d; }
+  .badge-red { background: #fee2e2; color: #b91c1c; }
+  .badge-blue { background: #dbeafe; color: #1d4ed8; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  @media (min-width: 640px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
+
+  .feature-box {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    background: #f8fafc;
+  }
+  .feature-box strong { display: block; font-size: 15px; margin-bottom: 4px; color: var(--navy); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+  th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--border); }
+  th { background: #f1f5f9; font-weight: 800; color: var(--navy); }
+  tr.highlight-row { background: #fefce8; font-weight: 700; }
+
+  /* FORMS & INPUTS */
+  label { display: block; font-size: 12px; font-weight: 800; color: var(--navy); margin-bottom: 4px; text-transform: uppercase; }
+  input[type="text"], input[type="number"], input[type="email"], input[type="password"], input[type="tel"], input[type="date"], select {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 10px;
+    font-size: 15px;
+    margin-bottom: 12px;
+    background: #fff;
+  }
+  .angles-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px; }
+  @media (min-width: 600px) { .angles-grid { grid-template-columns: repeat(4, 1fr); } }
+  .angle-slot {
+    border: 2px dashed #94a3b8;
+    border-radius: 12px;
+    padding: 12px 8px;
+    text-align: center;
+    background: #f8fafc;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+  }
+  .angle-slot.captured {
+    border: 2px solid var(--green);
+    background: var(--green-soft);
+    color: #14532d;
+  }
+  .btn-primary {
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+    width: 100%;
+  }
+  .btn-outline {
+    background: #fff;
+    color: var(--navy);
+    border: 1.5px solid var(--navy);
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-weight: 800;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .btn-green {
+    background: var(--green);
+    color: #fff;
+    border: none;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+    width: 100%;
+  }
+  .btn-sm { padding: 7px 11px; font-size: 12px; width: auto; }
+
+  .save-banner {
+    background: #eff6ff;
+    border: 1.5px solid #3b82f6;
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .url-pill-box {
+    background: #0b132b;
+    color: var(--gold-bright);
+    border: 1.5px solid var(--gold);
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-family: "Courier New", monospace;
+    font-weight: 800;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 10px 0;
+  }
+
+  .code-display {
+    font-family: "Courier New", monospace;
+    font-size: 38px;
+    font-weight: 900;
+    letter-spacing: 8px;
+    background: #0b132b;
+    color: var(--gold-bright);
+    border: 2px dashed var(--gold);
+    border-radius: 14px;
+    padding: 16px;
+    text-align: center;
+    margin: 12px 0;
+  }
+
+  .item-card {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 12px;
+    background: #fff;
+  }
+  .item-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+  .price-tag { font-size: 22px; font-weight: 900; color: var(--green); }
+
+  /* THERMAL / PAPER LABEL PREVIEW */
+  .shipping-label-box {
+    border: 2px solid #000;
+    background: #fff;
+    color: #000;
+    padding: 14px;
+    font-family: "Courier New", monospace;
+    border-radius: 6px;
+    margin-top: 10px;
+  }
+  .barcode-bars {
+    height: 44px;
+    background: repeating-linear-gradient(
+      90deg,
+      #000 0px, #000 3px,
+      #fff 3px, #fff 5px,
+      #000 5px, #000 6px,
+      #fff 6px, #fff 9px
+    );
+    margin: 8px 0;
+  }
+
+  /* BOTTOM MOBILE WEB NAV */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--navy);
+    border-top: 1px solid rgba(255,255,255,0.12);
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    z-index: 200;
+    padding: 6px 2px;
+  }
+  .bottom-btn {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 4px 1px;
+    cursor: pointer;
+  }
+  .bottom-btn span.ico { font-size: 17px; }
+  .bottom-btn.active { color: var(--gold-bright); }
+
+  .toast {
+    position: fixed;
+    top: 72px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #0f172a;
+    color: #fff;
+    border: 1.5px solid var(--gold);
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    z-index: 999;
+    display: none;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
+</style>
+</head>
+<body>
+
+<!-- FRONT-DOOR VIP CLOSED BETA GATE -->
+<div id="beta-gate-screen">
+  <div class="gate-box">
+    <div class="shield-badge">
+      <div class="shield-dog">🐶⚡</div>
+      <div class="shield-tag">$ SARGE</div>
+    </div>
+    <span class="badge badge-gold">Private Closed Beta • Invite Only</span>
+    <h1 style="font-size:24px; margin:10px 0 6px; color:#ffd60a;">BLITZYARDSALE.COM</h1>
+    <p style="color:#cbd5e1; font-size:13px; margin-bottom:14px;">This platform is currently in <strong>Private Family &amp; VIP Rehearsal Mode</strong>. Enter your invite passcode to enter.</p>
+    <input type="text" id="vip-passcode-input" class="gate-input" value="SARGE2026" placeholder="ENTER PASSCODE" onkeydown="if(event.key==='Enter') unlockBetaGate()" />
+    <div class="gate-error" id="gate-error-msg"></div>
+    <button class="btn-gold" style="width:100%;" onclick="unlockBetaGate()">🔓 Unlock Closed Beta Website &rarr;</button>
+    <div style="margin-top:12px; font-size:11px; color:#94a3b8;">Founder Rehearsal Passcode: <strong style="color:#ffd60a;">SARGE2026</strong></div>
+  </div>
+</div>
+
+<!-- 7-SECOND SARGE WELCOME SPLASH -->
+<div id="splash-screen" onclick="closeSplash()">
+  <div class="shield-badge" style="width:150px; height:170px;">
+    <div class="shield-dog" style="font-size:56px;">🐶⚡</div>
+    <div class="shield-tag">$ SARGE</div>
+  </div>
+  <div class="splash-title">BLITZYARDSALE.COM</div>
+  <div class="splash-sub">Fast Cash With Your Pride Intact. 100% Web-Based Private Online Yard Sales — No App Download Required.</div>
+  <div class="splash-timer-pill" id="splash-countdown">Entering BlitzYardSale.com in 7s (Tap to Skip)</div>
+  <button class="btn-gold" onclick="closeSplash()">Enter BlitzYardSale.com &rarr;</button>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<header>
+  <div class="header-inner">
+    <div class="brand-row" onclick="showScreen('home')" style="cursor:pointer;">
+      <div class="brand-icon">🐶</div>
+      <div>
+        <div class="brand-name">BLITZYARDSALE.COM</div>
+        <div class="brand-tag" id="header-user-status">Closed Beta • Working Copy Ready</div>
+      </div>
+    </div>
+    <nav class="desktop-nav">
+      <button class="nav-pill active" data-tab="home" onclick="showScreen('home')">1. Why Blitz</button>
+      <button class="nav-pill" data-tab="register" onclick="showScreen('register')">2. Account</button>
+      <button class="nav-pill" data-tab="studio" onclick="showScreen('studio')">3. Working Copy</button>
+      <button class="nav-pill" data-tab="launch" onclick="showScreen('launch')">4. EXE Code</button>
+      <button class="nav-pill" data-tab="drop" onclick="showScreen('drop')">5. Live Sale</button>
+      <button class="nav-pill" data-tab="orders" onclick="showScreen('orders')">6. Labels &amp; Escrow</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- SCREEN 1: HOME & SAVINGS PITCH -->
+  <section id="screen-home" class="screen active">
+    <div class="card card-dark">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+        <span class="badge badge-gold">🔒 Closed Beta Active (Passcode Protected)</span>
+        <div style="display:flex; gap:6px;">
+          <button class="btn-outline btn-sm" onclick="replaySplash()">Replay 7s Sarge</button>
+          <button class="btn-outline btn-sm" onclick="lockBetaGate()">Lock Gate</button>
+        </div>
+      </div>
+      <h2 style="margin-top:10px; color:#ffd60a;">Fast Cash With Your Pride Intact.</h2>
+      <p>Everything runs right on <strong>BlitzYardSale.com</strong> with zero app downloads. Register a username, name your upcoming event (e.g., <em>"Saturday the 18th — WORKING COPY"</em>), <strong>hit Save Working Copy anytime an emergency comes up</strong>, and unlock your live sale with your <strong>5-Digit EXE Launch Code</strong>.</p>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn-gold" onclick="showScreen('register')">Step 1: Register Username &rarr;</button>
+        <button class="btn-outline" onclick="showScreen('studio')">Open Working Copy Studio</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>How BlitzYardSale.com Works</h3>
+      <div class="grid-2">
+        <div class="feature-box">
+          <strong>🌐 100% Website — Zero App Downloads</strong>
+          <p style="margin:0;">Buyers and sellers open <code>BlitzYardSale.com</code> directly in Safari, Chrome, or Edge on any phone or computer.</p>
+        </div>
+        <div class="feature-box">
+          <strong>📝 Named "Working Copy" + Save &amp; Resume</strong>
+          <p style="margin:0;">Name your upcoming Saturday sale as a <strong>WORKING COPY</strong>, hit <strong>Save Working Copy</strong> if you have to leave, and resume when you get home.</p>
+        </div>
+        <div class="feature-box">
+          <strong>📊 4-Angle Photo Gate OR Spreadsheet Upload</strong>
+          <p style="margin:0;">Snap 4 required photos per item or upload a pre-filled CSV inventory spreadsheet from your desk.</p>
+        </div>
+        <div class="feature-box">
+          <strong>⚡ 5-Digit EXE Code &amp; Carrier Porch Scan</strong>
+          <p style="margin:0;">Your 5-digit EXE code strips the <em>WORKING COPY</em> tag, flips your link LIVE, and triggers dual email receipts upon carrier scan.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Cost &amp; Effort Comparison: BlitzYardSale.com vs. Local Flea Markets</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Option</th>
+            <th>Direct Cost</th>
+            <th>Time, Gas &amp; Effort Saved</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="highlight-row">
+            <td>⚡ BlitzYardSale.com (Up to 24 Hrs)</td>
+            <td>$25 Flat ($1 Beta Test)</td>
+            <td>Zero driving, zero gas, zero 5 AM setup, carrier porch pickup</td>
+          </tr>
+          <tr>
+            <td>Great Smokies Flea Market (Kodak)</td>
+            <td>$25–$40/day</td>
+            <td>Load truck, burn gas, sit outside 8 AM–5 PM</td>
+          </tr>
+          <tr>
+            <td>I-81 Flea Market (Morristown)</td>
+            <td>$7–$8/table</td>
+            <td>6:00 AM setup, outdoor weather &amp; crowd exposure</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SCREEN 2: WEBSITE REGISTRATION & PERMANENT LINK GENERATOR -->
+  <section id="screen-register" class="screen">
+    <div class="card">
+      <span class="badge badge-green">Step 1: Free BlitzYardSale.com Account</span>
+      <h2 style="margin-top:6px;">Create Your Username &amp; Permanent Sale Link</h2>
+      <p>Registering your username on <strong>BlitzYardSale.com</strong> automatically creates your permanent URL and saves your named Working Copy drafts to your account.</p>
+
+      <div class="grid-2">
+        <div>
+          <label>Choose Username (Generates Your Link)</label>
+          <input type="text" id="reg-username" value="johnjones" oninput="previewUsernameUrl()" placeholder="e.g., johnjones" />
+        </div>
+        <div>
+          <label>Create Password</label>
+          <input type="password" id="reg-password" value="••••••••••" placeholder="Create password" />
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <label>Seller Email (For Carrier-Scan Receipts)</label>
+          <input type="email" id="reg-email" value="john.jones@example.com" />
+        </div>
+        <div>
+          <label>Mobile Phone (SMS Alerts)</label>
+          <input type="tel" id="reg-phone" value="(423) 555-0194" />
+        </div>
+      </div>
+
+      <label>Private Porch-Pickup Address (Street Hidden From Public — Only City/ZIP Shown)</label>
+      <input type="text" id="reg-address" value="641 Pikeview Ave, Newport, TN 37821" />
+
+      <div class="url-pill-box">
+        <span id="live-generated-url">blitzyardsale.com/sale/johnjones</span>
+        <span class="badge badge-blue" id="url-status-badge">WORKING COPY (PREVIEW)</span>
+      </div>
+
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px;">
+        <button class="btn-primary" style="flex:1;" onclick="completeRegistration()">✅ Create Account &amp; Open Working Copy</button>
+        <button class="btn-outline" onclick="copySaleLink()">📋 Copy Sale Link</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 3: NAMED WORKING COPY BUILDER (WITH SAVE & RESUME + SPREADSHEET UPLOAD) -->
+  <section id="screen-studio" class="screen">
+    <div class="save-banner">
+      <div>
+        <strong style="color:#1e3a8a; font-size:14px;">💾 Need to leave for an emergency or errand?</strong>
+        <div style="font-size:12px; color:#334155;" id="last-saved-label">Status: Saved as WORKING COPY — safe to close &amp; pick back up when you get home.</div>
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button class="btn-primary btn-sm" style="background:#2563eb;" onclick="saveDraftNow()">💾 Save Working Copy</button>
+        <button class="btn-outline btn-sm" onclick="resumeSavedDraft()">🔄 Resume Saved Copy</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+        <div>
+          <span class="badge badge-blue" id="studio-status-pill">STATUS: WORKING COPY</span>
+          <h2 style="margin-top:6px;">Name &amp; Build Your Yard Sale</h2>
+        </div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <button class="btn-outline btn-sm" onclick="importSpreadsheetDemo()">📊 Import Spreadsheet (CSV)</button>
+          <button class="btn-gold btn-sm" onclick="demoFillItem()">⚡ 1-Tap Demo Fill</button>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:8px;">
+        <div>
+          <label>Yard Sale Event Name (Labeled WORKING COPY Until Paid)</label>
+          <input type="text" id="sale-event-name" value="Saturday the 18th Garage &amp; Tool Cleanout" oninput="autoSaveDraft()" />
+        </div>
+        <div>
+          <label>Target Sale Date</label>
+          <input type="date" id="sale-target-date" value="2026-11-21" onchange="autoSaveDraft()" />
+        </div>
+      </div>
+
+      <hr style="border:none; border-top:1px solid var(--border); margin:8px 0 14px;" />
+
+      <label>Item Title</label>
+      <input type="text" id="item-title" oninput="autoSaveDraft()" placeholder="e.g., DeWalt 20V Cordless Drill Kit + 2 Batteries" />
+
+      <div class="grid-2">
+        <div>
+          <label>Firm Price ($)</label>
+          <input type="number" id="item-price" oninput="autoSaveDraft()" placeholder="65" />
+        </div>
+        <div>
+          <label>Shipping Box Tier</label>
+          <select id="item-box" onchange="autoSaveDraft()">
+            <option value="Small (8x6x4 in — 2 lbs)">Small Box (8×6×4" • ~2 lbs)</option>
+            <option value="Medium (12x10x8 in — 6 lbs)" selected>Medium Box (12×10×8" • ~6 lbs)</option>
+            <option value="Large (18x14x12 in — 14 lbs)">Large Box (18×14×12" • ~14 lbs)</option>
+          </select>
+        </div>
+      </div>
+
+      <label>Price Lock Rule (Seller Control)</label>
+      <select id="item-lock" onchange="autoSaveDraft()">
+        <option value="slash">Can Slash Price Later ($5 / $10 Quick Drops)</option>
+        <option value="hard">Hard Lock Price (Never Discount)</option>
+      </select>
+
+      <label>Required 4-Angle 1080p Verification Gate (Tap Each Slot)</label>
+      <div class="angles-grid">
+        <div class="angle-slot" id="angle-0" onclick="toggleAngle(0)">📷 1. Front View<br><small>Tap to Capture</small></div>
+        <div class="angle-slot" id="angle-1" onclick="toggleAngle(1)">📷 2. Back View<br><small>Tap to Capture</small></div>
+        <div class="angle-slot" id="angle-2" onclick="toggleAngle(2)">📷 3. Side / Detail<br><small>Tap to Capture</small></div>
+        <div class="angle-slot" id="angle-3" onclick="toggleAngle(3)">📷 4. Tag / Serial<br><small>Tap to Capture</small></div>
+      </div>
+
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn-primary" style="flex:2;" onclick="addCatalogItem()">+ Add Item to Working Copy</button>
+        <button class="btn-outline" style="flex:1;" onclick="saveDraftNow()">💾 Save Working Copy</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+        <h3><span id="catalog-event-heading">Saturday the 18th Garage &amp; Tool Cleanout — WORKING COPY</span> (<span id="catalog-count">2</span> Items)</h3>
+        <button class="btn-gold btn-sm" onclick="showScreen('launch')">Ready to Go Live &rarr; Get 5-Digit EXE Code</button>
+      </div>
+      <div id="seller-catalog-list"></div>
+    </div>
+  </section>
+
+  <!-- SCREEN 4: $25 / $1 BETA LAUNCH & 5-DIGIT EXE CODE -->
+  <section id="screen-launch" class="screen">
+    <div class="card card-dark">
+      <span class="badge badge-gold">Step 3: Strip "WORKING COPY" &amp; Go Live</span>
+      <h2 style="margin-top:8px; color:#ffd60a;">Activate Your 5-Digit EXE Launch Code</h2>
+      <p>Paying the activation fee generates your <strong>5-Digit EXE Launch Code</strong>, strips the <em>WORKING COPY</em> label off <strong style="color:#ffd60a;" id="launch-event-name">Saturday the 18th Garage &amp; Tool Cleanout</strong>, and unlocks <strong id="launch-url-ref" style="color:#ffd60a;">blitzyardsale.com/sale/johnjones</strong> for live buyers.</p>
+
+      <div class="grid-2">
+        <div>
+          <label style="color:#ffd60a;">Select Sale Duration Window</label>
+          <select id="sale-duration">
+            <option value="60-Minute High-Urgency Blitz">60-Minute High-Urgency Blitz (Included)</option>
+            <option value="24-Hour Extended Sale Window">24-Hour Extended Sale Window (Included)</option>
+          </select>
+        </div>
+        <div>
+          <label style="color:#ffd60a;">Checkout Mode</label>
+          <select id="activation-tier" onchange="updateActivationPrice()">
+            <option value="1.00">Closed Beta Rehearsal ($1.00 Test Mode)</option>
+            <option value="25.00">Standard Public Launch ($25.00 Flat Fee)</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="background:rgba(255,255,255,0.08); padding:14px; border-radius:12px; margin:12px 0;">
+        <div style="display:flex; justify-content:space-between; font-weight:800; font-size:16px;">
+          <span>Activation Fee Due Now:</span>
+          <span style="color:#ffd60a;" id="activation-fee-display">$1.00 (Beta Rehearsal)</span>
+        </div>
+        <small style="color:#cbd5e1;">Keep 100% of your item prices • Auto-closes when sold out or timer expires.</small>
+      </div>
+
+      <button class="btn-gold" style="width:100%;" onclick="activateLaunchCode()">⚡ Complete Payment &amp; Issue 5-Digit EXE Code</button>
+
+      <div id="launch-code-result" style="display:none; margin-top:16px; text-align:center;">
+        <span class="badge badge-green">WORKING COPY REMOVED • SALE IS LIVE!</span>
+        <div class="code-display" id="generated-code">48291</div>
+        <p style="color:#fff; font-weight:700;" id="active-window-label">EXE Code 48291 Active on blitzyardsale.com/sale/johnjones</p>
+        <button class="btn-green" onclick="showScreen('drop')">Open Live Buyer Storefront Now &rarr;</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 5: LIVE BUYER DROP & ESCROW CHECKOUT -->
+  <section id="screen-drop" class="screen">
+    <div class="card" style="background:#0b132b; color:#fff; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+      <div>
+        <span class="badge badge-blue" id="drop-mode-badge">WORKING COPY PREVIEW • LOCKED</span>
+        <h3 style="margin:6px 0 2px; color:#fff;" id="drop-event-banner">Saturday the 18th Garage &amp; Tool Cleanout — WORKING COPY</h3>
+        <div style="font-size:12px; color:#94a3b8;" id="drop-url-banner">blitzyardsale.com/sale/johnjones • Seller: Newport, TN 37821</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:11px; color:#94a3b8;">TIME REMAINING</div>
+        <div id="live-countdown" style="font-size:22px; font-weight:900; color:#ffd60a; font-family:monospace;">59:42</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="grid-2">
+        <div>
+          <label>Buyer Delivery ZIP Code (For Live Postage)</label>
+          <input type="text" id="buyer-zip" value="37902" maxlength="5" oninput="renderBuyerFeed()" />
+        </div>
+        <div>
+          <label>Buyer Email (For Escrow &amp; Scan Receipt)</label>
+          <input type="email" id="buyer-email" value="buyer.family@example.com" />
+        </div>
+      </div>
+      <label style="display:flex; align-items:center; gap:8px; text-transform:none; font-size:13px; cursor:pointer;">
+        <input type="checkbox" id="asis-agree" checked style="width:18px; height:18px; margin:0;" />
+        I have inspected all 4 HD angles and agree all items are <strong>Sold As-Is</strong>.
+      </label>
+    </div>
+
+    <div id="buyer-feed-list"></div>
+  </section>
+
+  <!-- SCREEN 6: ORDERS, PRINTABLE LABELS & CARRIER SCAN ESCROW RELEASE -->
+  <section id="screen-orders" class="screen">
+    <div class="card">
+      <span class="badge badge-gold">Hotel-Style Reserve Hold &amp; Dual-Receipt System</span>
+      <h2 style="margin-top:6px;">Orders, Porch Labels &amp; Escrow Payouts</h2>
+      <p>Print on <strong>regular 8.5×11" paper + clear tape</strong> OR a <strong>thermal label printer</strong>. The instant the carrier scans the shipping barcode on your porch, escrow releases to your bank and <strong>automatic email receipts</strong> go to both buyer and seller.</p>
+
+      <div class="grid-2" style="margin-top:10px;">
+        <div class="feature-box" style="background:#fefce8; border-color:#f5b700;">
+          <small style="font-weight:800; color:#92400e;">IN ESCROW RESERVE HOLD</small>
+          <div style="font-size:26px; font-weight:900; color:#0b132b;" id="escrow-held-total">$0.00</div>
+        </div>
+        <div class="feature-box" style="background:#dcfce7; border-color:#16a34a;">
+          <small style="font-weight:800; color:#166534;">RELEASED TO SELLER BANK</small>
+          <div style="font-size:26px; font-weight:900; color:#15803d;" id="escrow-released-total">$0.00</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="orders-list"></div>
+  </section>
+</main>
+
+<!-- MOBILE WEB BOTTOM TAB BAR -->
+<nav class="bottom-nav">
+  <button class="bottom-btn active" data-tab="home" onclick="showScreen('home')"><span class="ico">🛡️</span>Why Blitz</button>
+  <button class="bottom-btn" data-tab="register" onclick="showScreen('register')"><span class="ico">👤</span>Account</button>
+  <button class="bottom-btn" data-tab="studio" onclick="showScreen('studio')"><span class="ico">💾</span>Draft</button>
+  <button class="bottom-btn" data-tab="launch" onclick="showScreen('launch')"><span class="ico">⚡</span>EXE Code</button>
+  <button class="bottom-btn" data-tab="drop" onclick="showScreen('drop')"><span class="ico">🛒</span>Live Sale</button>
+  <button class="bottom-btn" data-tab="orders" onclick="showScreen('orders')"><span class="ico">📦</span>Labels</button>
+</nav>
+
+<script>
+  const VALID_BETA_CODES = ['SARGE2026', 'BLITZ2026', 'VIP18', 'JONES'];
+  let sellerUsername = 'johnjones';
+  let sellerEmail = 'john.jones@example.com';
+  let isSaleLive = false;
+  let activeLaunchCode = '48291';
+  let splashInterval = null;
+
+  function unlockBetaGate() {
+    const val = (document.getElementById('vip-passcode-input').value || '').trim().toUpperCase();
+    if (VALID_BETA_CODES.includes(val)) {
+      document.getElementById('beta-gate-screen').classList.add('unlocked');
+      document.getElementById('gate-error-msg').textContent = '';
+      startSplash();
+    } else {
+      document.getElementById('gate-error-msg').textContent = 'Invalid Closed Beta Passcode. Try SARGE2026.';
+    }
+  }
+
+  function lockBetaGate() {
+    document.getElementById('beta-gate-screen').classList.remove('unlocked');
+  }
+
+  function startSplash() {
+    let splashSec = 7;
+    const sp = document.getElementById('splash-screen');
+    sp.classList.add('active');
+    document.getElementById('splash-countdown').textContent = `Entering BlitzYardSale.com in ${splashSec}s (Tap to Skip)`;
+    clearInterval(splashInterval);
+    splashInterval = setInterval(() => {
+      splashSec--;
+      const el = document.getElementById('splash-countdown');
+      if (el) el.textContent = `Entering BlitzYardSale.com in ${splashSec}s (Tap to Skip)`;
+      if (splashSec <= 0) closeSplash();
+    }, 1000);
+  }
+
+  function closeSplash() {
+    clearInterval(splashInterval);
+    document.getElementById('splash-screen').classList.remove('active');
+  }
+
+  function replaySplash() {
+    startSplash();
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.display = 'block';
+    setTimeout(() => { t.style.display = 'none'; }, 3400);
+  }
+
+  function showScreen(name) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-' + name).classList.add('active');
+    document.querySelectorAll('[data-tab]').forEach(b => {
+      b.classList.toggle('active', b.getAttribute('data-tab') === name);
+    });
+    renderAll();
+    window.scrollTo(0, 0);
+  }
+
+  function sanitizeUser(val) {
+    const clean = (val || '').toLowerCase().replace(/[^a-z0-9-_]/g, '');
+    return clean || 'johnjones';
+  }
+
+  function previewUsernameUrl() {
+    sellerUsername = sanitizeUser(document.getElementById('reg-username').value);
+    syncUrls();
+  }
+
+  function getFormattedSaleTitle() {
+    const rawName = (document.getElementById('sale-event-name') ? document.getElementById('sale-event-name').value.trim() : '') || 'Saturday the 18th Garage & Tool Cleanout';
+    return isSaleLive ? rawName : `${rawName} — WORKING COPY`;
+  }
+
+  function syncUrls() {
+    const fullUrl = `blitzyardsale.com/sale/${sellerUsername}`;
+    const formattedTitle = getFormattedSaleTitle();
+    document.getElementById('live-generated-url').textContent = fullUrl;
+    document.getElementById('launch-url-ref').textContent = fullUrl;
+    document.getElementById('drop-url-banner').textContent = `${fullUrl} • Seller: Newport, TN 37821`;
+    document.getElementById('catalog-event-heading').textContent = formattedTitle;
+    document.getElementById('drop-event-banner').textContent = formattedTitle;
+    document.getElementById('launch-event-name').textContent = formattedTitle;
+
+    document.getElementById('header-user-status').textContent = isSaleLive
+      ? `@${sellerUsername} • LIVE (EXE ${activeLaunchCode})`
+      : `@${sellerUsername} • WORKING COPY Saved`;
+
+    const badge = document.getElementById('url-status-badge');
+    if (badge) {
+      badge.textContent = isSaleLive ? 'LIVE & UNLOCKED' : 'WORKING COPY (PREVIEW)';
+      badge.className = isSaleLive ? 'badge badge-green' : 'badge badge-blue';
+    }
+    const studioPill = document.getElementById('studio-status-pill');
+    if (studioPill) {
+      studioPill.textContent = isSaleLive ? `STATUS: LIVE (EXE ${activeLaunchCode})` : 'STATUS: WORKING COPY';
+      studioPill.className = isSaleLive ? 'badge badge-green' : 'badge badge-blue';
+    }
+  }
+
+  function completeRegistration() {
+    sellerUsername = sanitizeUser(document.getElementById('reg-username').value);
+    sellerEmail = document.getElementById('reg-email').value.trim() || 'john.jones@example.com';
+    orders.forEach(o => { o.sellerEmail = sellerEmail; });
+    syncUrls();
+    saveDraftNow(true);
+    showToast(`✅ Account @${sellerUsername} ready! Opening your Working Copy...`);
+    setTimeout(() => showScreen('studio'), 650);
+  }
+
+  function copySaleLink() {
+    const fullUrl = `https://blitzyardsale.com/sale/${sellerUsername}`;
+    if (navigator.clipboard) navigator.clipboard.writeText(fullUrl).catch(() => {});
+    showToast(`📋 Copied ${fullUrl} to clipboard!`);
+  }
+
+  let angles = [false, false, false, false];
+  function toggleAngle(idx) {
+    angles[idx] = !angles[idx];
+    updateAngleUI();
+    autoSaveDraft();
+  }
+  function updateAngleUI() {
+    const labels = ['1. Front View', '2. Back View', '3. Side / Detail', '4. Tag / Serial'];
+    angles.forEach((ok, i) => {
+      const el = document.getElementById('angle-' + i);
+      el.classList.toggle('captured', ok);
+      el.innerHTML = ok
+        ? `✅ ${labels[i]}<br><small>1080p Verified</small>`
+        : `📷 ${labels[i]}<br><small>Tap to Capture</small>`;
+    });
+  }
+
+  function demoFillItem() {
+    document.getElementById('item-title').value = 'Craftsman 120-Piece Mechanics Tool Set in Case';
+    document.getElementById('item-price').value = 55;
+    document.getElementById('item-box').selectedIndex = 1;
+    document.getElementById('item-lock').value = 'slash';
+    angles = [true, true, true, true];
+    updateAngleUI();
+    autoSaveDraft();
+    showToast('⚡ Demo item + all 4 angles loaded into Working Copy!');
+  }
+
+  function importSpreadsheetDemo() {
+    items.unshift(
+      { id: Date.now() + 1, title: 'Honda EU2200i Portable Inverter Generator (CSV Import)', price: 650, box: 'Large (18x14x12 in — 14 lbs)', lock: 'hard', sold: false },
+      { id: Date.now() + 2, title: 'Stihl MS 170 Gas Chainsaw + Extra Chain (CSV Import)', price: 145, box: 'Large (18x14x12 in — 14 lbs)', lock: 'slash', sold: false }
+    );
+    saveDraftNow(true);
+    renderAll();
+    showToast('📊 Imported 2 items from CSV Spreadsheet & saved Working Copy!');
+  }
+
+  let items = [
+    { id: 1, title: 'DeWalt 20V MAX Cordless Drill + 2 Batteries & Charger', price: 65, box: 'Medium (12x10x8 in — 6 lbs)', lock: 'slash', sold: false },
+    { id: 2, title: 'Yeti Tundra 35 Hard Cooler (Navy Blue)', price: 120, box: 'Large (18x14x12 in — 14 lbs)', lock: 'hard', sold: false }
+  ];
+
+  let orders = [
+    {
+      id: 'BYS-1041',
+      boxNum: 1,
+      itemTitle: 'Milwaukee M18 Impact Driver (Bare Tool)',
+      itemPrice: 50.00,
+      shipping: 9.45,
+      carrier: 'USPS Ground Advantage',
+      tracking: '9400 1118 9956 2841 7730 12',
+      buyerEmail: 'brother.in.law@example.com',
+      sellerEmail: 'john.jones@example.com',
+      status: 'HELD'
+    }
+  ];
+
+  /* WORKING COPY SAVE & RESUME ENGINE */
+  function buildStatePayload() {
+    return {
+      sellerUsername,
+      sellerEmail,
+      saleEventName: document.getElementById('sale-event-name') ? document.getElementById('sale-event-name').value : 'Saturday the 18th Garage & Tool Cleanout',
+      saleTargetDate: document.getElementById('sale-target-date') ? document.getElementById('sale-target-date').value : '2026-11-21',
+      items,
+      inProgressTitle: document.getElementById('item-title') ? document.getElementById('item-title').value : '',
+      inProgressPrice: document.getElementById('item-price') ? document.getElementById('item-price').value : '',
+      inProgressBox: document.getElementById('item-box') ? document.getElementById('item-box').selectedIndex : 1,
+      inProgressLock: document.getElementById('item-lock') ? document.getElementById('item-lock').value : 'slash',
+      angles,
+      savedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+    };
+  }
+
+  function autoSaveDraft() {
+    try {
+      const payload = buildStatePayload();
+      localStorage.setItem('blitz_working_copy_v2', JSON.stringify(payload));
+      syncUrls();
+      const lbl = document.getElementById('last-saved-label');
+      if (lbl) lbl.textContent = `Auto-saved WORKING COPY at ${payload.savedAt} — safe to leave & pick back up anytime.`;
+    } catch (e) {}
+  }
+
+  function saveDraftNow(silent) {
+    try {
+      const payload = buildStatePayload();
+      localStorage.setItem('blitz_working_copy_v2', JSON.stringify(payload));
+      syncUrls();
+      const lbl = document.getElementById('last-saved-label');
+      if (lbl) lbl.textContent = `✅ Saved WORKING COPY at ${payload.savedAt}! Safe to close browser and resume when you get home.`;
+      if (!silent) showToast(`💾 Saved "${payload.saleEventName} — WORKING COPY" at ${payload.savedAt}!`);
+    } catch (e) {}
+  }
+
+  function resumeSavedDraft(silent) {
+    try {
+      const raw = localStorage.getItem('blitz_working_copy_v2');
+      if (!raw) {
+        if (!silent) showToast('No prior Working Copy found yet.');
+        return;
+      }
+      const data = JSON.parse(raw);
+      if (data.sellerUsername) {
+        sellerUsername = data.sellerUsername;
+        const uIn = document.getElementById('reg-username');
+        if (uIn) uIn.value = sellerUsername;
+      }
+      if (data.sellerEmail) sellerEmail = data.sellerEmail;
+      if (data.saleEventName && document.getElementById('sale-event-name')) document.getElementById('sale-event-name').value = data.saleEventName;
+      if (data.saleTargetDate && document.getElementById('sale-target-date')) document.getElementById('sale-target-date').value = data.saleTargetDate;
+      if (Array.isArray(data.items)) items = data.items;
+      if (document.getElementById('item-title')) document.getElementById('item-title').value = data.inProgressTitle || '';
+      if (document.getElementById('item-price')) document.getElementById('item-price').value = data.inProgressPrice || '';
+      if (document.getElementById('item-box')) document.getElementById('item-box').selectedIndex = data.inProgressBox ?? 1;
+      if (document.getElementById('item-lock')) document.getElementById('item-lock').value = data.inProgressLock || 'slash';
+      if (Array.isArray(data.angles)) {
+        angles = data.angles;
+        updateAngleUI();
+      }
+      renderAll();
+      if (!silent) showToast(`🔄 Resumed "${data.saleEventName} — WORKING COPY" from ${data.savedAt}.`);
+    } catch (e) {}
+  }
+
+  function addCatalogItem() {
+    const title = document.getElementById('item-title').value.trim();
+    const price = parseFloat(document.getElementById('item-price').value);
+    const box = document.getElementById('item-box').value;
+    const lock = document.getElementById('item-lock').value;
+
+    if (!title || !price || price <= 0) {
+      showToast('Enter an item title and price first.');
+      return;
+    }
+    if (!angles.every(Boolean)) {
+      showToast('All 4 photo angles are required before listing!');
+      return;
+    }
+    items.unshift({ id: Date.now(), title, price, box, lock, sold: false });
+    document.getElementById('item-title').value = '';
+    document.getElementById('item-price').value = '';
+    angles = [false, false, false, false];
+    updateAngleUI();
+    saveDraftNow(true);
+    renderAll();
+    showToast('✅ Item added & saved to your Working Copy!');
+  }
+
+  function slashPrice(id, amt) {
+    const it = items.find(x => x.id === id);
+    if (it && it.lock === 'slash' && it.price - amt >= 5) {
+      it.price -= amt;
+      saveDraftNow(true);
+      renderAll();
+      showToast(`🔥 Price slashed by $${amt} to $${it.price}!`);
+    }
+  }
+
+  function updateActivationPrice() {
+    const val = document.getElementById('activation-tier').value;
+    document.getElementById('activation-fee-display').textContent = val === '1.00'
+      ? '$1.00 (Closed Beta Rehearsal)'
+      : '$25.00 (Public Launch Flat Fee)';
+  }
+
+  function activateLaunchCode() {
+    activeLaunchCode = String(Math.floor(10000 + Math.random() * 90000));
+    isSaleLive = true;
+    const dur = document.getElementById('sale-duration').value;
+    document.getElementById('generated-code').textContent = activeLaunchCode;
+    document.getElementById('active-window-label').textContent = `EXE Code ${activeLaunchCode} Active • ${dur}`;
+    document.getElementById('launch-code-result').style.display = 'block';
+    syncUrls();
+    renderAll();
+    showToast(`⚡ Payment Confirmed! EXE Code ${activeLaunchCode} stripped WORKING COPY & went LIVE!`);
+  }
+
+  function calcShipping(boxStr, zip) {
+    const base = boxStr.startsWith('Small') ? 6.85 : boxStr.startsWith('Medium') ? 9.45 : 14.90;
+    const distAdj = (zip && zip.startsWith('37')) ? 0 : 2.50;
+    return +(base + distAdj).toFixed(2);
+  }
+
+  function buyItem(id) {
+    if (!isSaleLive) {
+      showToast('🔔 Notify Me set! Activate your 5-Digit EXE Code first to unlock checkout.');
+      return;
+    }
+    if (!document.getElementById('asis-agree').checked) {
+      showToast('Please check the "Sold As-Is" inspection agreement first.');
+      return;
+    }
+    const it = items.find(x => x.id === id);
+    if (!it || it.sold) return;
+    const zip = document.getElementById('buyer-zip').value.trim() || '37902';
+    const buyerEmail = document.getElementById('buyer-email').value.trim() || 'buyer@example.com';
+    const ship = calcShipping(it.box, zip);
+    it.sold = true;
+
+    orders.unshift({
+      id: 'BYS-' + Math.floor(1050 + Math.random() * 8900),
+      boxNum: orders.length + 1,
+      itemTitle: it.title,
+      itemPrice: it.price,
+      shipping: ship,
+      carrier: 'USPS Ground Advantage',
+      tracking: '9400 ' + Math.floor(1000 + Math.random()*9000) + ' 9956 ' + Math.floor(1000 + Math.random()*9000) + ' 4410',
+      buyerEmail,
+      sellerEmail,
+      status: 'HELD'
+    });
+
+    renderAll();
+    showToast('🔒 Reserve Hold Placed! Opening Labels & Escrow...');
+    setTimeout(() => showScreen('orders'), 700);
+  }
+
+  function simulateCarrierScan(orderId) {
+    const ord = orders.find(o => o.id === orderId);
+    if (!ord || ord.status === 'RELEASED') return;
+    ord.status = 'RELEASED';
+    ord.scanTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    renderAll();
+    showToast('📬 Carrier Scanned! Escrow Released & Dual Emails Sent!');
+  }
+
+  function renderAll() {
+    syncUrls();
+    document.getElementById('catalog-count').textContent = items.length;
+    const dropBadge = document.getElementById('drop-mode-badge');
+    if (dropBadge) {
+      dropBadge.textContent = isSaleLive
+        ? `⚡ LIVE SALE • EXE CODE ${activeLaunchCode}`
+        : `📝 WORKING COPY PREVIEW • CHECKOUT LOCKED`;
+      dropBadge.className = isSaleLive ? 'badge badge-green' : 'badge badge-blue';
+    }
+
+    const sList = document.getElementById('seller-catalog-list');
+    sList.innerHTML = items.map(it => `
+      <div class="item-card">
+        <div class="item-top">
+          <div>
+            <strong>${it.title}</strong>
+            <div style="font-size:12px; color:#475569; margin-top:4px;">📦 ${it.box} • ✅ 4/4 Angles Verified</div>
+            <div style="margin-top:6px;">
+              ${it.lock === 'hard'
+                ? '<span class="badge badge-red">🔒 Hard Lock Price</span>'
+                : '<span class="badge badge-green">✂️ Can Slash Price</span>'}
+              ${it.sold ? '<span class="badge badge-gold">SOLD</span>' : ''}
+            </div>
+          </div>
+          <div style="text-align:right;">
+            <div class="price-tag">$${it.price}</div>
+            ${(!it.sold && it.lock === 'slash')
+              ? `<button class="btn-outline btn-sm" style="margin-top:6px;" onclick="slashPrice(${it.id}, 5)">-$5 Drop</button>`
+              : ''}
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    const zip = document.getElementById('buyer-zip').value.trim() || '37902';
+    const bList = document.getElementById('buyer-feed-list');
+    bList.innerHTML = items.map(it => {
+      const ship = calcShipping(it.box, zip);
+      const total = (it.price + ship).toFixed(2);
+      let actionBtn = '';
+      if (it.sold) {
+        actionBtn = '<button class="btn-outline" style="width:100%; opacity:0.6;" disabled>SOLD — Reserve Hold Locked</button>';
+      } else if (!isSaleLive) {
+        actionBtn = `<button class="btn-gold" style="width:100%;" onclick="buyItem(${it.id})">🔔 Notify Me When Live (Working Copy Mode)</button>`;
+      } else {
+        actionBtn = `<button class="btn-green" onclick="buyItem(${it.id})">🔒 Lock Item Now ($${total} Reserve Hold)</button>`;
+      }
+
+      return `
+        <div class="item-card">
+          <div class="item-top">
+            <div>
+              <span class="badge badge-green">4 HD Angles Verified</span>
+              <h3 style="margin:6px 0 4px;">${it.title}</h3>
+              <div style="font-size:12px; color:#475569;">📦 ${it.box} • Est. Postage to ${zip}: <strong>$${ship.toFixed(2)}</strong></div>
+            </div>
+            <div style="text-align:right;">
+              <div class="price-tag">$${it.price}</div>
+              <small style="color:#475569;">Total w/ Ship: $${total}</small>
+            </div>
+          </div>
+          <div style="margin-top:12px;">${actionBtn}</div>
+        </div>
+      `;
+    }).join('');
+
+    let held = 0, released = 0;
+    orders.forEach(o => {
+      if (o.status === 'HELD') held += o.itemPrice;
+      else released += o.itemPrice;
+    });
+    document.getElementById('escrow-held-total').textContent = '$' + held.toFixed(2);
+    document.getElementById('escrow-released-total').textContent = '$' + released.toFixed(2);
+
+    const oList = document.getElementById('orders-list');
+    oList.innerHTML = orders.map(o => `
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div>
+            <span class="badge ${o.status === 'HELD' ? 'badge-gold' : 'badge-green'}">
+              ${o.status === 'HELD' ? '⏳ IN ESCROW RESERVE HOLD' : '✅ SCANNED & ESCROW RELEASED (' + o.scanTime + ')'}
+            </span>
+            <h3 style="margin:6px 0 2px;">Box #${o.boxNum} — ${o.itemTitle}</h3>
+            <div style="font-size:12px; color:#475569;">Order ${o.id} • Item Payout: <strong>$${o.itemPrice.toFixed(2)}</strong> • Postage: $${o.shipping.toFixed(2)}</div>
+          </div>
+          ${o.status === 'HELD'
+            ? `<button class="btn-gold btn-sm" onclick="simulateCarrierScan('${o.id}')">📡 Simulate Carrier Porch Scan</button>`
+            : `<button class="btn-outline btn-sm" onclick="window.print()">🖨️ Print Receipt</button>`}
+        </div>
+
+        <div class="shipping-label-box">
+          <div style="display:flex; justify-content:space-between; font-weight:900; font-size:13px;">
+            <span>${o.carrier} • BOX #${o.boxNum}</span>
+            <span>PAPER + TAPE OR THERMAL</span>
+          </div>
+          <div style="font-size:11px; margin-top:4px;">FROM: @${sellerUsername.toUpperCase()} • NEWPORT, TN 37821</div>
+          <div style="font-size:12px; font-weight:900;">TO: VERIFIED BUYER (${o.buyerEmail})</div>
+          <div class="barcode-bars"></div>
+          <div style="text-align:center; font-size:12px; font-weight:900;">TRACKING: ${o.tracking}</div>
+        </div>
+
+        ${o.status === 'RELEASED' ? `
+          <div style="background:#dcfce7; border:1px solid #16a34a; border-radius:10px; padding:10px; margin-top:10px; font-size:12px; color:#14532d;">
+            <strong>📧 Dual Automatic Email Receipts Dispatched:</strong><br/>
+            1. <strong>Buyer (${o.buyerEmail}):</strong> "Your package is on its way! Tracking #${o.tracking}"<br/>
+            2. <strong>Seller (${o.sellerEmail}):</strong> "Carrier custody verified at ${o.scanTime}. Seller liability cleared &amp; $${o.itemPrice.toFixed(2)} released to your bank."
+          </div>
+        ` : ''}
+      </div>
+    `).join('');
+  }
+
+  let dropSeconds = 3582;
+  setInterval(() => {
+    if (dropSeconds > 0) dropSeconds--;
+    const m = String(Math.floor(dropSeconds / 60)).padStart(2, '0');
+    const s = String(dropSeconds % 60).padStart(2, '0');
+    const el = document.getElementById('live-countdown');
+    if (el) el.textContent = `${m}:${s}`;
+  }, 1000);
+
+  resumeSavedDraft(true);
+  renderAll();
+</script>
 </body>
 </html>
