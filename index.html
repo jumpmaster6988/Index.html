@@ -1,0 +1,356 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+ <meta charset="UTF-8" />  
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
+ <title>Blitz Yard Sale | Live Online Flash Yard Sales — Sellers Keep 95%</title>  
+ <style>  
+ :root {  
+ --bg: #0f172a;  
+ --surface: #1e293b;  
+ --surface-light: #334155;  
+ --text: #f8fafc;  
+ --muted: #94a3b8;  
+ --accent: #22c55e;  
+ --accent-dark: #16a34a;  
+ --warn: #f59e0b;  
+ --warn-bg: rgba(245, 158, 11, 0.14);  
+ --danger: #ef4444;  
+ --border: #334155;  
+ }  
+  
+ * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }  
+ body { background: var(--bg); color: var(--text); line-height: 1.5; padding-bottom: 60px; }  
+  
+ /* Top Banner */  
+ .top-bar {  
+ background: linear-gradient(90deg, #14532d, #166534);  
+ color: #dcfce7;  
+ text-align: center;  
+ padding: 10px 16px;  
+ font-size: 0.9rem;  
+ font-weight: 600;  
+ }  
+  
+ /* Header */  
+ header {  
+ max-width: 1120px;  
+ margin: 0 auto;  
+ padding: 20px 16px;  
+ display: flex;  
+ flex-wrap: wrap;  
+ justify-content: space-between;  
+ align-items: center;  
+ gap: 12px;  
+ border-bottom: 1px solid var(--border);  
+ }  
+ .brand h1 { font-size: 1.55rem; letter-spacing: -0.5px; }  
+ .brand span { color: var(--accent); }  
+ .brand p { color: var(--muted); font-size: 0.85rem; }  
+  
+ .header-actions { display: flex; gap: 10px; flex-wrap: wrap; }  
+ button {  
+ cursor: pointer;  
+ border: none;  
+ border-radius: 8px;  
+ padding: 10px 16px;  
+ font-weight: 600;  
+ font-size: 0.9rem;  
+ transition: 0.15s ease;  
+ }  
+ .btn-primary { background: var(--accent); color: #052e16; }  
+ .btn-primary:hover { background: var(--accent-dark); color: #fff; }  
+ .btn-secondary { background: var(--surface-light); color: var(--text); }  
+ .btn-secondary:hover { background: #475569; }  
+ .btn-warn { background: var(--warn); color: #1c1917; }  
+  
+ /* Live Drop Hero */  
+ .hero {  
+ max-width: 1120px;  
+ margin: 20px auto;  
+ padding: 0 16px;  
+ }  
+ .hero-card {  
+ background: var(--surface);  
+ border: 1px solid var(--border);  
+ border-radius: 14px;  
+ padding: 22px;  
+ display: grid;  
+ grid-template-columns: 1fr auto;  
+ gap: 20px;  
+ align-items: center;  
+ }  
+ @media (max-width: 720px) {  
+ .hero-card { grid-template-columns: 1fr; }  
+ }  
+ .live-pill {  
+ display: inline-flex;  
+ align-items: center;  
+ gap: 8px;  
+ background: rgba(34, 197, 94, 0.15);  
+ color: var(--accent);  
+ padding: 4px 12px;  
+ border-radius: 999px;  
+ font-size: 0.8rem;  
+ font-weight: 700;  
+ margin-bottom: 8px;  
+ }  
+ .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; }  
+ .timer-box {  
+ background: var(--bg);  
+ border: 1px solid var(--border);  
+ padding: 14px 20px;  
+ border-radius: 12px;  
+ text-align: center;  
+ }  
+ .timer-box small { color: var(--muted); display: block; font-size: 0.75rem; text-transform: uppercase; }  
+ .timer-box strong { font-size: 1.5rem; color: var(--warn); font-variant-numeric: tabular-nums; }  
+  
+ /* Filter Bar */  
+ .controls {  
+ max-width: 1120px;  
+ margin: 20px auto 12px;  
+ padding: 0 16px;  
+ display: flex;  
+ justify-content: space-between;  
+ align-items: center;  
+ flex-wrap: wrap;  
+ gap: 10px;  
+ }  
+ .filter-group { display: flex; gap: 8px; flex-wrap: wrap; }  
+ .filter-btn { background: var(--surface); color: var(--muted); border: 1px solid var(--border); }  
+ .filter-btn.active { background: var(--accent); color: #052e16; border-color: var(--accent); }  
+  
+ /* Grid */  
+ .grid {  
+ max-width: 1120px;  
+ margin: 0 auto;  
+ padding: 0 16px;  
+ display: grid;  
+ grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));  
+ gap: 18px;  
+ }  
+ .card {  
+ background: var(--surface);  
+ border: 1px solid var(--border);  
+ border-radius: 14px;  
+ overflow: hidden;  
+ display: flex;  
+ flex-direction: column;  
+ justify-content: space-between;  
+ }  
+ .card.bulky { border-color: var(--warn); }  
+ .card-top { padding: 18px; }  
+ .badge-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 10px; }  
+ .badge-ship {  
+ background: rgba(56, 189, 248, 0.15);  
+ color: #38bdf8;  
+ font-size: 0.75rem;  
+ font-weight: 700;  
+ padding: 4px 10px;  
+ border-radius: 6px;  
+ }  
+ .badge-pickup {  
+ background: var(--warn-bg);  
+ color: var(--warn);  
+ border: 1px solid rgba(245, 158, 11, 0.4);  
+ font-size: 0.75rem;  
+ font-weight: 700;  
+ padding: 4px 10px;  
+ border-radius: 6px;  
+ }  
+ .card h3 { font-size: 1.15rem; margin-bottom: 6px; }  
+ .card p { color: var(--muted); font-size: 0.9rem; margin-bottom: 12px; }  
+  
+ .pickup-callout {  
+ background: var(--warn-bg);  
+ border-left: 3px solid var(--warn);  
+ padding: 10px 12px;  
+ border-radius: 6px;  
+ font-size: 0.82rem;  
+ color: #fde68a;  
+ margin-bottom: 12px;  
+ }  
+  
+ .price-strip {  
+ background: var(--bg);  
+ padding: 14px 18px;  
+ border-top: 1px solid var(--border);  
+ display: flex;  
+ justify-content: space-between;  
+ align-items: center;  
+ }  
+ .price-tag { font-size: 1.35rem; font-weight: 800; color: var(--text); }  
+ .price-sub { display: block; font-size: 0.75rem; color: var(--muted); font-weight: 400; }  
+  
+ /* Modals */  
+ .modal-backdrop {  
+ position: fixed;  
+ inset: 0;  
+ background: rgba(2, 6, 23, 0.82);  
+ display: none;  
+ align-items: center;  
+ justify-content: center;  
+ padding: 16px;  
+ z-index: 50;  
+ }  
+ .modal-backdrop.open { display: flex; }  
+ .modal {  
+ background: var(--surface);  
+ border: 1px solid var(--border);  
+ border-radius: 16px;  
+ max-width: 520px;  
+ width: 100%;  
+ max-height: 90vh;  
+ overflow-y: auto;  
+ padding: 22px;  
+ }  
+ .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }  
+ .close-btn { background: transparent; color: var(--muted); font-size: 1.3rem; padding: 4px 8px; }  
+  
+ .summary-box {  
+ background: var(--bg);  
+ border: 1px solid var(--border);  
+ border-radius: 10px;  
+ padding: 14px;  
+ margin: 12px 0;  
+ font-size: 0.9rem;  
+ }  
+ .summary-row { display: flex; justify-content: space-between; padding: 5px 0; }  
+ .summary-row.total { border-top: 1px solid var(--border); margin-top: 6px; padding-top: 10px; font-weight: 800; font-size: 1.05rem; color: var(--accent); }  
+ .seller-split-note {  
+ background: rgba(34, 197, 94, 0.1);  
+ border: 1px solid rgba(34, 197, 94, 0.3);  
+ color: #bbf7d0;  
+ padding: 10px 12px;  
+ border-radius: 8px;  
+ font-size: 0.82rem;  
+ margin-top: 10px;  
+ }  
+  
+ .receipt-box {  
+ background: #052e16;  
+ border: 1px solid var(--accent);  
+ border-radius: 12px;  
+ padding: 16px;  
+ margin-top: 14px;  
+ }  
+ .receipt-box h4 { color: var(--accent); margin-bottom: 8px; }  
+  
+ /* Form Fields */  
+ .form-group { margin-bottom: 12px; }  
+ label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; color: #e2e8f0; }  
+ input, textarea, select {  
+ width: 100%;  
+ background: var(--bg);  
+ border: 1px solid var(--border);  
+ color: var(--text);  
+ padding: 10px 12px;  
+ border-radius: 8px;  
+ font-size: 0.92rem;  
+ }  
+ .checkbox-row {  
+ display: flex;  
+ align-items: flex-start;  
+ gap: 10px;  
+ background: var(--warn-bg);  
+ border: 1px solid rgba(245, 158, 11, 0.4);  
+ padding: 12px;  
+ border-radius: 8px;  
+ margin: 12px 0;  
+ font-size: 0.85rem;  
+ color: #fef3c7;  
+ }  
+ .checkbox-row input { width: auto; margin-top: 3px; }  
+ </style>  
+</head>  
+<body>  
+  
+ <div class="top-bar">  
+ $0 Upfront to List • Sellers Keep 95% • Commercial USPS/UPS Shipping • Private Bulky-Item Pickup Only After Paid Checkout  
+ </div>  
+  
+ <header>  
+ <div class="brand">  
+ <h1>Blitz<span>YardSale</span>.com</h1>  
+ <p>Live Online Flash Yard Sales — Nationwide Shipping &amp; Gated Local Pickup</p>  
+ </div>  
+ <div class="header-actions">  
+ <button class="btn-secondary" onclick="openSellerModal()">+ List Item ($0 Upfront)</button>  
+ <button class="btn-primary" onclick="filterItems('all')">Live Drop Catalog</button>  
+ </div>  
+ </header>  
+  
+ <section class="hero">  
+ <div class="hero-card">  
+ <div>  
+ <div class="live-pill"><span class="dot"></span> LIVE BLITZ DROP #104 — EAST TN / WESTERN NC</div>  
+ <h2>Weekend Garage &amp; Estate Cleanout — Newport, TN</h2>  
+ <p style="color: var(--muted); margin-top: 6px; font-size: 0.92rem;">  
+ No crowds at your house. Standard items ship via discounted commercial USPS Ground Advantage. Oversized items (furniture, swing sets, mowers) are paid online while live—exact pickup address unlocks <strong>only</strong> for the winning paid buyer.  
+ </p>  
+ </div>  
+ <div class="timer-box">  
+ <small>Drop Ends In</small>  
+ <strong id="countdown">01:58:42</strong>  
+ </div>  
+ </div>  
+ </section>  
+  
+ <div class="controls">  
+ <div class="filter-group">  
+ <button class="filter-btn active" id="btn-all" onclick="filterItems('all')">All Items</button>  
+ <button class="filter-btn" id="btn-ship" onclick="filterItems('ship')">Shippable Nationwide</button>  
+ <button class="filter-btn" id="btn-pickup" onclick="filterItems('pickup')">Bulky / Local Pickup Only</button>  
+ </div>  
+ <div style="color: var(--muted); font-size: 0.85rem;" id="item-count">Showing 4 live items</div>  
+ </div>  
+  
+ <main class="grid" id="catalog-grid"></main>  
+  
+ <!-- CHECKOUT & POST-PAYMENT RECEIPT MODAL -->  
+ <div class="modal-backdrop" id="checkout-modal">  
+ <div class="modal">  
+ <div class="modal-header">  
+ <h3 id="modal-title">Instant Live Checkout</h3>  
+ <button class="close-btn" onclick="closeCheckout()">&times;</button>  
+ </div>  
+ <div id="checkout-body"></div>  
+ </div>  
+ </div>  
+  
+ <!-- SELLER ADD-ITEM MODAL -->  
+ <div class="modal-backdrop" id="seller-modal">  
+ <div class="modal">  
+ <div class="modal-header">  
+ <h3>Add Item to Live Blitz Drop ($0 Fee)</h3>  
+ <button class="close-btn" onclick="closeSellerModal()">&times;</button>  
+ </div>  
+ <form onsubmit="addNewItem(event)">  
+ <div class="form-group">  
+ <label>Item Title</label>  
+ <input type="text" id="new-title" placeholder="e.g., Heavy-Duty Cedar Swing Set or DeWalt Miter Saw" required />  
+ </div>  
+ <div class="form-group">  
+ <label>Description &amp; Condition</label>  
+ <textarea id="new-desc" rows="2" placeholder="Describe condition, dimensions, or what's included..." required></textarea>  
+ </div>  
+ <div class="form-group">  
+ <label>Item Price ($ USD) — You Keep 95%</label>  
+ <input type="number" id="new-price" min="1" step="1" placeholder="75" required oninput="updateSellerPreview()" />  
+ <small id="seller-payout-preview" style="color: var(--accent); display: block; margin-top: 4px;">  
+ Your guaranteed 95% payout: $0.00 ($0 upfront listing fee)  
+ </small>  
+ </div>  
+ <div class="form-group">  
+ <label>Delivery / Handoff Method</label>  
+ <select id="new-type" onchange="toggleSellerFields()">  
+ <option value="ship">Standard Shippable Item (USPS / UPS Commercial Label)</option>  
+ <option value="pickup">Too Large to Ship — Private Local Pickup Only (Furniture, Swing Sets, etc.)</option>  
+ </select>  
+ </div>  
+  
+ <div id="ship-fields">  
+ </div>
+</body>
+</html>
